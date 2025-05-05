@@ -1,96 +1,141 @@
 package pages.SuperAdmin;
 
 import baseTest.baseClass;
-import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * ViewStaff class represents the View Staff functionality in the application.
+ * It contains methods to view and verify staff details.
+ */
 public class viewStaff extends baseClass {
     private static final Logger log = LoggerFactory.getLogger(viewStaff.class);
 
-    static String PatientFirstName = "//span[text()='"; static String PatientLastname = "']/parent::a";
-    static String getFirstName = "//span[text()='First Name']/following-sibling::span";
-    static String getLastName = "//span[text()='Last Name']/following-sibling::span";
-    static String getEmail = "//span[text()='Email']/following-sibling::span";
-    static String getPhone = "//span[text()='Phone']/following-sibling::span";
-    static String getRole = "//span[text()='Role']/following-sibling::span";
-    static String getGender = "//span[text()='Gender']/following-sibling::span";
-    static String getLine1 = "//span[text()='Line 1']/following-sibling::span";
-    static String getLine2 = "//span[text()='Line 2']/following-sibling::span";
-    static String getState = "//span[text()='State']/following-sibling::span";
-    static String getCity = "//span[text()='City']/following-sibling::span";
-    static String getCountry = "//span[text()='Country']/following-sibling::span";
-    static String getZipCode = "//span[text()='Zip Code']/following-sibling::span";
+    // Locators
+    private static final String STAFF_NAME_LINK = "//span[text()='%s']/parent::a";
+    private static final String FIRST_NAME = "//span[text()='First Name']/following-sibling::span";
+    private static final String LAST_NAME = "//span[text()='Last Name']/following-sibling::span";
+    private static final String EMAIL = "//span[text()='Email']/following-sibling::span";
+    private static final String PHONE = "//span[text()='Phone']/following-sibling::span";
+    private static final String ROLE = "//span[text()='Role']/following-sibling::span";
+    private static final String GENDER = "//span[text()='Gender']/following-sibling::span";
+    private static final String ADDRESS_LINE1 = "//span[text()='Line 1']/following-sibling::span";
+    private static final String ADDRESS_LINE2 = "//span[text()='Line 2']/following-sibling::span";
+    private static final String STATE = "//span[text()='State']/following-sibling::span";
+    private static final String CITY = "//span[text()='City']/following-sibling::span";
+    private static final String COUNTRY = "//span[text()='Country']/following-sibling::span";
+    private static final String ZIP_CODE = "//span[text()='Zip Code']/following-sibling::span";
 
-
-    public static void clickOnThePatientName(String firstname, String lastaname) throws InterruptedException {
-        test.info("clicking on the patient name");
-        findByXpath(PatientFirstName+ firstname+" "+lastaname+PatientLastname).click();
+    /**
+     * Clicks on the staff name to view details
+     * @param firstName First name of the staff
+     * @param lastName Last name of the staff
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void viewStaffDetails(String firstName, String lastName) throws InterruptedException {
+        test.info("Clicking on the staff name");
+        findByXpath(String.format(STAFF_NAME_LINK, firstName + " " + lastName)).click();
         Thread.sleep(timeout);
-        test.pass("view patient page is opened after clicking on the patient name");
-
+        test.pass("View staff page is opened after clicking on the staff name");
     }
 
-    public static String verifyFirstName(){
-        String firstName = findByXpath(getFirstName).getText();
-        log.info(firstName);
+    /**
+     * Verifies the first name of the staff
+     * @return First name of the staff
+     */
+    public static String getFirstName() {
+        String firstName = findByXpath(FIRST_NAME).getText();
+        log.info("First Name: {}", firstName);
         return firstName;
     }
 
-    public static String verifyLastName(){
-        String LastName = findByXpath(getLastName).getText();
-        log.info(LastName);
-        return LastName;
+    /**
+     * Verifies the last name of the staff
+     * @return Last name of the staff
+     */
+    public static String getLastName() {
+        String lastName = findByXpath(LAST_NAME).getText();
+        log.info("Last Name: {}", lastName);
+        return lastName;
     }
 
-    public static String verifyEmail(){
-        return findByXpath(getEmail).getText();
-
+    /**
+     * Verifies the email of the staff
+     * @return Email of the staff
+     */
+    public static String getEmail() {
+        return findByXpath(EMAIL).getText();
     }
 
-    public static String verifyPhone(){
-        return findByXpath(getPhone).getText();
-
+    /**
+     * Verifies the phone number of the staff
+     * @return Phone number of the staff
+     */
+    public static String getPhone() {
+        return findByXpath(PHONE).getText();
     }
 
-    public static String verifyRole(){
-        return findByXpath(getRole).getText();
-
+    /**
+     * Verifies the role of the staff
+     * @return Role of the staff
+     */
+    public static String getRole() {
+        return findByXpath(ROLE).getText();
     }
 
-    public static String verifyGender(){
-        return findByXpath(getGender).getText();
-
+    /**
+     * Verifies the gender of the staff
+     * @return Gender of the staff
+     */
+    public static String getGender() {
+        return findByXpath(GENDER).getText();
     }
 
-    public static String verifyAddressLine1(){
-        return findByXpath(getLine1).getText();
-
+    /**
+     * Verifies the address line 1 of the staff
+     * @return Address line 1 of the staff
+     */
+    public static String getAddressLine1() {
+        return findByXpath(ADDRESS_LINE1).getText();
     }
 
-    public static String verifyAddressLine2(){
-         return findByXpath(getLine2).getText();
-
+    /**
+     * Verifies the address line 2 of the staff
+     * @return Address line 2 of the staff
+     */
+    public static String getAddressLine2() {
+        return findByXpath(ADDRESS_LINE2).getText();
     }
 
-    public static String verifyCity(){
-        return findByXpath(getCity).getText();
-
+    /**
+     * Verifies the city of the staff
+     * @return City of the staff
+     */
+    public static String getCity() {
+        return findByXpath(CITY).getText();
     }
 
-    public static String verifyZipCode(){
-        return findByXpath(getZipCode).getText();
-
+    /**
+     * Verifies the zip code of the staff
+     * @return Zip code of the staff
+     */
+    public static String getZipCode() {
+        return findByXpath(ZIP_CODE).getText();
     }
 
-    public static String verifyState(){
-        return findByXpath(getState).getText();
-
+    /**
+     * Verifies the state of the staff
+     * @return State of the staff
+     */
+    public static String getState() {
+        return findByXpath(STATE).getText();
     }
 
-    public static String verifyCountry(){
-        return findByXpath(getCountry).getText();
-
+    /**
+     * Verifies the country of the staff
+     * @return Country of the staff
+     */
+    public static String getCountry() {
+        return findByXpath(COUNTRY).getText();
     }
 }

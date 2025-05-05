@@ -11,193 +11,148 @@ import utility.userDetails;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * AdminStaff class represents the Admin Staff management page in the application.
+ * It contains methods to interact with the Admin Staff page elements and perform actions.
+ */
 public class adminStaff extends baseClass {
+    // Locators
+    private static final String SETTINGS_BUTTON = "//span[text()='Settings']/parent::a";
+    private static final String ADMIN_USERS_TAB = "//button[text()='Admin Users']";
+    private static final String ADD_STAFF_BUTTON = "//span[text()='Add Staff']/parent::button";
+    private static final String FIRST_NAME_FIELD = "firstName";
+    private static final String LAST_NAME_FIELD = "lastName";
+    private static final String EMAIL_FIELD = "email";
+    private static final String PHONE_FIELD = "phone";
+    private static final String ROLE_DROPDOWN = "//span[text()='Select Staff Role']/parent::button";
+    private static final String ROLE_OPTION = "//span[text()='Select Staff Role']/parent::button/following-sibling::ul/li[text()='%s']";
+    private static final String GENDER_DROPDOWN = "//span[text()='Select Gender']/parent::button";
+    private static final String GENDER_OPTION = "//span[text()='Select Gender']/parent::button/following-sibling::ul/li[text()='%s']";
+    private static final String ADDRESS_LINE1 = "address.line1";
+    private static final String ADDRESS_LINE2 = "address.line2";
+    private static final String STATE_SEARCH = "//input[@placeholder='Select State']";
+    private static final String STATE_OPTION = "//input[@placeholder='Select State']/parent::div/following-sibling::ul/li[text()='%s']";
+    private static final String CITY_FIELD = "address.city";
+    private static final String ZIP_CODE_FIELD = "address.zipcode";
+    private static final String SAVE_BUTTON = "//div[@class='MuiBox-root css-lb61rc']//button[text()='Add Staff']";
+    public static final String STAFF_TABLE = "//table/tbody/tr";
+    public static final String FIRST_STAFF_NAME = "//table/tbody/tr[1]/td[1]";
 
-    static String state = address.getState();
-    static String gender = userDetails.getGender();
-    public static String role = userDetails.getRole();
+    // Static data
+    private static final String STATE = address.getState();
+    private static final String GENDER = userDetails.getGender();
+    public static final String ROLE = userDetails.getRole();
 
-    static String clickOnSettings = "//span[text()='Settings']/parent::a";
-    static String clickOnAdminUserTab = "//button[text()='Admin Users']";
-    static String clickOnAddStaff = "//span[text()='Add Staff']/parent::button";
-    static String enterFirstName = "firstName";
-    static String enterLastName = "lastName";
-    static String enterEmail = "email";
-    static String enterPhone = "phone";
-    static String clickOnRoleType = "//span[text()='Select Staff Role']/parent::button";
-    static String selectRoleFormDropdown = "//span[text()='Select Staff Role']/parent::button/following-sibling::ul/li[text()='" + role + "']";
-    static String verifyRoleIsPresent = "//label[text()='Role']//following-sibling::button";
-    static String clickOnTheGenderField = "//span[text()='Select Gender']/parent::button";
-    static String selectGender = "//span[text()='Select Gender']/parent::button/following-sibling::ul/li[text()='" + gender + "']";
-    static String enterAddressLine1 = "address.line1";
-    static String enterAddressLine2 = "address.line2";
-    static String searchState = "//input[@placeholder='Select State']";
-    static String stateOption = "//input[@placeholder='Select State']/parent::div/following-sibling::ul/li[text()='" + state + "']";
-    static String enterCity = "address.city";
-    //   String enterCountry = By.name(""); // because country is bydefault selected
-    static String enterZipCode = "address.zipcode";
-    static String clickSaveButton = "//div[@class='MuiBox-root css-lb61rc']//button[text()='Add Staff']";
-    public static String tablePath = "//table/tbody/tr";
-    public static String getFullName = "//table/tbody/tr[1]/td[1]";
-
-    static String clickAdminStaffUser = "//span[text()='" + role + "']/ancestor::button";
-
-
-    public static void clickOnTheSettings() {
-        findByXpath(clickOnSettings).click();
-
+    /**
+     * Navigates to the Admin Staff page
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void navigateToAdminStaffPage() throws InterruptedException {
+        test.info("Navigating to the Admin User tab");
+        clickOnSettings();
+        clickOnAdminUser();
+        clickOnRoleTypeTab();
+        Thread.sleep(timeout);
+        test.pass("Admin User tab is opened successfully");
     }
 
-    public static void clickOnTheAdminUser() {
-        findByXpath(clickOnAdminUserTab).click();
-
-    }
-
-    public static void clickOnRoleTypeTab() {
-        findByXpath(clickAdminStaffUser).click();
-
-    }
-
+    /**
+     * Opens the Add Staff form
+     * @throws InterruptedException if the thread is interrupted
+     */
     public static void openAddStaffForm() throws InterruptedException {
         test.info("Opening Add Staff Form");
-        findByXpath(clickOnAddStaff).click();
+        findByXpath(ADD_STAFF_BUTTON).click();
         Thread.sleep(timeout);
         test.pass("Add Staff form is opened");
-
     }
 
-    public static void firstName(String firstName) throws InterruptedException {
-        WebElement ele = findByName(enterFirstName);
-        if (ele.getAttribute("value").isEmpty()) {
-            ele.sendKeys(firstName);
-        } else {
-            //ele.clear(); // Try clearing first
-            ele.sendKeys(Keys.CONTROL + "a"); // Select all text   // If the field still retains old text, send BACKSPACE multiple times
-            ele.sendKeys(Keys.BACK_SPACE);
-            Thread.sleep(3000);
-            ele.sendKeys(firstName);
-            //  Thread.sleep(2000);
-        }
+    /**
+     * Enters staff details in the form
+     * @param firstName First name of the staff
+     * @param lastName Last name of the staff
+     * @param email Email of the staff
+     * @param phoneNumber Phone number of the staff
+     * @param role Role of the staff
+     * @param gender Gender of the staff
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void enterAdminUserDetails(String firstName, String lastName, String email, 
+                                           String phoneNumber, String role, String gender) throws InterruptedException {
+        test.info("Entering user's details in the fields");
+        enterFirstName(firstName);
+        enterLastName(lastName);
+        enterEmail(email);
+        enterPhoneNumber(phoneNumber);
+        selectRole(role);
+        selectGender(gender);
+        test.pass("Entered User details in the fields");
     }
 
-    public static void lastName(String lastname) throws InterruptedException {
-        WebElement ele = findByName(enterLastName);
-        if (ele.getAttribute("value").isEmpty()) {
-            ele.sendKeys(lastname);
-        } else {
-            //ele.clear(); // Try clearing first
-            ele.sendKeys(Keys.CONTROL + "a"); // Select all text
-            ele.sendKeys(Keys.BACK_SPACE);
-            Thread.sleep(3000);
-            ele.sendKeys(lastname);
-            // Thread.sleep(2000);
-        }
-    }
+    /**
+     * Enters address details in the form
+     * @param line1 Address line 1
+     * @param line2 Address line 2
+     * @param city City
+     * @param zipCode Zip code
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void enterAddress(String line1, String line2, String city, String zipCode) throws InterruptedException {
+        test.info("Entering address of the user");
+        findByName(ADDRESS_LINE1).sendKeys(line1);
+        findByName(ADDRESS_LINE2).sendKeys(line2);
 
-    public static void email(String email) throws InterruptedException {
-        WebElement ele = findByName(enterEmail);
-        if (ele.getAttribute("value").isEmpty()) {
-            ele.sendKeys(email);
-        }
-
-    }
-
-    public static void PhoneNumber(String phoneNumber) throws InterruptedException {
-        WebElement ele = findByName(enterPhone);
-        if (ele.getAttribute("value").isEmpty()) {
-            ele.sendKeys(phoneNumber);
-        } else {
-            //ele.clear(); // Try clearing first
-            ele.sendKeys(Keys.CONTROL + "a"); // Select all text
-            ele.sendKeys(Keys.BACK_SPACE);
-            Thread.sleep(timeout);
-            ele.sendKeys(phoneNumber);
-            // Thread.sleep(timeout);
-        }
-    }
-
-    public static void roleType(String role) throws InterruptedException {
-        WebElement ele = findByXpath(verifyRoleIsPresent);
-
-        if (!ele.getText().equals(role)) {
-            findByXpath(clickOnRoleType).click();
-            findByXpath(selectRoleFormDropdown, true).click();
-        }
-
-    }
-
-    public static void gender(String Gender) {
-        WebElement ele = findByXpath("//label[text()='Gender']//following-sibling::button");
-
-        if(!ele.getText().equals(Gender)) {
-            findByXpath(clickOnTheGenderField).click();
-            findByXpath(selectGender).click();
-        }
-    }
-
-    public static void address(String line1, String line2, String city, String zipCode) throws InterruptedException {
-        test.info("entering address of the user");
-        findByName(enterAddressLine1).sendKeys(line1);
-        findByName(enterAddressLine2).sendKeys(line2);
-
-        WebElement stateInput = findByXpath(searchState);
+        WebElement stateInput = findByXpath(STATE_SEARCH);
         stateInput.click();
-        stateInput.sendKeys(state);
+        stateInput.sendKeys(STATE);
         try {
-            findByXpath(stateOption, true).click();
+            findByXpath(String.format(STATE_OPTION, STATE), true).click();
         } catch (Exception e) {
             throw new RuntimeException("State does not match please find");
         }
 
-        findByName(enterCity).sendKeys(city);
-        //   driver.findElement(enterCountry).sendKeys();
-        findByName(enterZipCode).sendKeys(zipCode);
+        findByName(CITY_FIELD).sendKeys(city);
+        findByName(ZIP_CODE_FIELD).sendKeys(zipCode);
         Thread.sleep(timeout);
         test.pass("Entered user's address successfully");
-
     }
 
-    public static void clickOnSaveButton() throws InterruptedException {
-        test.info("clicking on the save button");
-        findByXpath(clickSaveButton).click();
+    /**
+     * Saves the staff details
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void saveStaffDetails() throws InterruptedException {
+        test.info("Clicking on the save button");
+        findByXpath(SAVE_BUTTON).click();
         Thread.sleep(8000);
-        test.pass("clicked on the save button");
+        test.pass("Clicked on the save button");
     }
 
-    public static String getStaff() throws InterruptedException {
+    /**
+     * Gets the name of the first staff in the list
+     * @return Name of the first staff
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static String getFirstStaffName() throws InterruptedException {
         String actualName;
 
-        if (role.equalsIgnoreCase("Super Admin")) {
+        if (ROLE.equalsIgnoreCase("Super Admin")) {
             test.info("Verifying that the added staff is displayed in the table");
-            findByXpath(clickOnAdminUserTab).click();
+            findByXpath(ADMIN_USERS_TAB).click();
             driver.navigate().refresh();
             Thread.sleep(2000);
-            List<WebElement> rowData = findByXpath(tablePath, "true");
-            int rowSize = rowData.size();
-            actualName = findByXpath(getFullName).getText();
-//            int columnSize = columnData.size();
-//            System.out.println("rowSize:" + rowSize + ", columnSize: " + columnSize);
-//
-//            for (WebElement getData : columnData) {
-//                System.out.println(getData.getText());
-//            }
-
-        } else if (role.equalsIgnoreCase("Front Desk")) {
-            clickOnRoleTypeTab();   // navigate to the partcular staff page
+            List<WebElement> rowData = findByXpath(STAFF_TABLE, "true");
+            actualName = findByXpath(FIRST_STAFF_NAME).getText();
+        } else if (ROLE.equalsIgnoreCase("Front Desk")) {
+            clickOnRoleTypeTab();
             driver.navigate().refresh();
             Thread.sleep(2000);
-            List<WebElement> rowData = findByXpath(tablePath, "true");
-            int rowSize = rowData.size();
-            actualName = findByXpath(getFullName).getText();
-            // int columnSize = columnData.size();
-            // System.out.println("rowSize:" + rowSize + ", columnSize: " + columnSize);
-
-//            for (WebElement getData : columnData) {
-//                System.out.println(getData.getText());
-//            }
+            List<WebElement> rowData = findByXpath(STAFF_TABLE, "true");
+            actualName = findByXpath(FIRST_STAFF_NAME).getText();
         } else {
             throw new RuntimeException("Role not found");
         }
+
         if (Objects.nonNull(actualName))
             test.pass("Added staff is displayed successfully");
         else
@@ -206,24 +161,72 @@ public class adminStaff extends baseClass {
         return actualName;
     }
 
-    public static void navigateToAdminStaffPage() throws InterruptedException {
-        test.info("Navigating to the Admin User tab");
-        clickOnTheSettings();
-        clickOnTheAdminUser();
-        clickOnRoleTypeTab();
+    /**
+     * Clicks on the Role Type tab
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void clickOnRoleTypeTab() throws InterruptedException {
+        test.info("Clicking on the Role Type tab");
+        findByXpath(String.format("//span[text()='%s']/ancestor::button", ROLE)).click();
         Thread.sleep(timeout);
-        test.pass("Admin User tab is opened successfully");
+        test.pass("Clicked on the Role Type tab");
     }
 
-    public static void enterAdminUserDetails(String fName, String lName, String email, String phoneNumber, String role, String Gender) throws InterruptedException {
-        test.info("Entering user's details in the fields");
-        firstName(fName);
-        lastName(lName);
-        email(email);
-        PhoneNumber(phoneNumber);
-        roleType(role);
-        gender(Gender);
-        test.pass("Entered User details in the fields");
+    // Private helper methods
+    private static void clickOnSettings() {
+        findByXpath(SETTINGS_BUTTON).click();
+    }
 
+    private static void clickOnAdminUser() {
+        findByXpath(ADMIN_USERS_TAB).click();
+    }
+
+    private static void enterFirstName(String firstName) throws InterruptedException {
+        WebElement ele = findByName(FIRST_NAME_FIELD);
+        clearAndEnterText(ele, firstName);
+    }
+
+    private static void enterLastName(String lastName) throws InterruptedException {
+        WebElement ele = findByName(LAST_NAME_FIELD);
+        clearAndEnterText(ele, lastName);
+    }
+
+    private static void enterEmail(String email) throws InterruptedException {
+        WebElement ele = findByName(EMAIL_FIELD);
+        if (ele.getAttribute("value").isEmpty()) {
+            ele.sendKeys(email);
+        }
+    }
+
+    private static void enterPhoneNumber(String phoneNumber) throws InterruptedException {
+        WebElement ele = findByName(PHONE_FIELD);
+        clearAndEnterText(ele, phoneNumber);
+    }
+
+    private static void selectRole(String role) throws InterruptedException {
+        WebElement ele = findByXpath("//label[text()='Role']//following-sibling::button");
+        if (!ele.getText().equals(role)) {
+            findByXpath(ROLE_DROPDOWN).click();
+            findByXpath(String.format(ROLE_OPTION, role), true).click();
+        }
+    }
+
+    private static void selectGender(String gender) {
+        WebElement ele = findByXpath("//label[text()='Gender']//following-sibling::button");
+        if (!ele.getText().equals(gender)) {
+            findByXpath(GENDER_DROPDOWN).click();
+            findByXpath(String.format(GENDER_OPTION, gender)).click();
+        }
+    }
+
+    private static void clearAndEnterText(WebElement element, String text) throws InterruptedException {
+        if (element.getAttribute("value").isEmpty()) {
+            element.sendKeys(text);
+        } else {
+            element.sendKeys(Keys.CONTROL + "a");
+            element.sendKeys(Keys.BACK_SPACE);
+            Thread.sleep(3000);
+            element.sendKeys(text);
+        }
     }
 }

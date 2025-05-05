@@ -74,7 +74,7 @@
                 <version>3.0.0-M7</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/testRunner/parallelRun.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testNG.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <headless>true</headless>

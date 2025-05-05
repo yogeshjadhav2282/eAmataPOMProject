@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="eAmata Test Suite">
+    <listeners>
+        <listener class-name="utility.listener"/>
+    </listeners>
+    <test name="All Tests">
+        <classes>
+            <class name="testCases.TC01_loginUser"/>
+            <class name="testCases.TC02_logout"/>
+            <class name="testCases.TC03_adminStaff"/>
+        </classes>
+    </test>
+</suite> 

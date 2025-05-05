@@ -5,64 +5,89 @@ import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+/**
+ * SortUser class represents the Staff Sorting functionality in the application.
+ * It contains methods to sort and verify staff list order.
+ */
 public class sortUser extends baseClass {
-    static String clickAscendSort = "//table/thead/tr/th[1]/a/descendant::p";
-    static String getNamePath1 = "//table/tbody/tr[";
-    static String getGetNamePath2 = "]/td[1]";
-    static String clickOnPagination = "";
-    static String listOfPagination = "//table/ancestor::div[1]/following-sibling::div/descendant::div[4]/child::nav/ul/li";
-    static List<String> actualAscendingSortedName = new ArrayList<>();
-    static int i = 2;
-    //table/ancestor::div[1]/following-sibling::div/descendant::div[4]/child::nav/ul/li[]
+    // Locators
+    private static final String SORT_BUTTON = "//table/thead/tr/th[1]/a/descendant::p";
+    private static final String STAFF_NAME_PATTERN = "//table/tbody/tr[%d]/td[1]";
+    private static final String PAGINATION_LIST = "//table/ancestor::div[1]/following-sibling::div/descendant::div[4]/child::nav/ul/li";
+    private static final String PAGINATION_BUTTON_PATTERN = PAGINATION_LIST + "[%d]";
 
-    public static void clickOnSortToAscend() throws InterruptedException {
-        findByXpath(clickAscendSort).click();
+    // State
+    private static final List<String> staffNames = new ArrayList<>();
+    private static int currentPage = 2;
+
+    /**
+     * Clicks on the sort button to sort staff by name
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void sortByName() throws InterruptedException {
+        findByXpath(SORT_BUTTON).click();
         Thread.sleep(timeout);
     }
 
-    public static void navigateToNextPage() throws InterruptedException {
-        findByXpath(clickOnPagination).click();
+    /**
+     * Navigates to the next page in the pagination
+     * @throws InterruptedException if the thread is interrupted
+     */
+    private static void navigateToNextPage() throws InterruptedException {
+        findByXpath(String.format(PAGINATION_BUTTON_PATTERN, currentPage)).click();
         Thread.sleep(3000);
     }
 
-    public static void verifyNoOfOfPages() throws InterruptedException {
-        List<WebElement> noOfPagination = findByXpath(listOfPagination, "true");
-        int paginationSize = noOfPagination.size();
-        while (i < paginationSize) {
-            clickOnPagination = listOfPagination + "[" + i + "]";
+    /**
+     * Verifies if the staff list is sorted in ascending order
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public static void verifyAscendingOrder() throws InterruptedException {
+        List<WebElement> paginationElements = findByXpath(PAGINATION_LIST, "true");
+        int totalPages = paginationElements.size();
+        
+        // Collect names from first page
+        collectStaffNames();
+        
+        // Collect names from middle pages
+        while (currentPage < totalPages - 1) {
             navigateToNextPage();
-            i++;
+            collectStaffNames();
+            currentPage++;
+        }
+        
+        // Collect names from last page if it exists
+        if (totalPages > 1) {
+            navigateToNextPage();
+            collectStaffNames();
+        }
+
+        verifySortOrder();
+    }
+
+    /**
+     * Collects staff names from the current page
+     * @throws InterruptedException if the thread is interrupted
+     */
+    private static void collectStaffNames() throws InterruptedException {
+        List<WebElement> staffElements = findByXpath(adminStaff.STAFF_TABLE, "true");
+        for (int i = 1; i <= staffElements.size(); i++) {
+            WebElement staffElement = findByXpath(String.format(STAFF_NAME_PATTERN, i));
+            staffNames.add(staffElement.getText());
         }
     }
 
-    public static void verifyListInAscendingOrder() throws InterruptedException {
-        List<WebElement> noOfPagination = findByXpath(listOfPagination, "true");
-        int paginationSize = noOfPagination.size();
-        System.out.println("paginationSize: "+paginationSize);
-        List<WebElement> rowData = findByXpath(adminStaff.tablePath, "true");
-        int rowSize = rowData.size();
-        do {
-            for (int j = 1; j <= rowSize; j++) {
-                WebElement ele = findByXpath(getNamePath1 + j + getGetNamePath2);
-                actualAscendingSortedName.add(ele.getText());
-            }
-            i++;
-            clickOnPagination = listOfPagination + "[" + i + "]";
-            navigateToNextPage();
-        } while (i < paginationSize-1);
+    /**
+     * Verifies if the collected names are in ascending order
+     */
+    private static void verifySortOrder() {
+        List<String> sortedNames = new ArrayList<>(staffNames);
+        Collections.sort(sortedNames);
 
-        System.out.println("Actual Result: " + actualAscendingSortedName);
-        Comparator<String> comp = new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return 0;
-            }
-        };
-        System.out.println("List Size: "+actualAscendingSortedName.size());
-        Collections.sort(actualAscendingSortedName, String::compareTo);
-        System.out.println("Expected Result: " + actualAscendingSortedName);
+        if (!staffNames.equals(sortedNames)) {
+            throw new RuntimeException("Staff list is not sorted in ascending order");
+        }
     }
 }
