@@ -4,7 +4,7 @@
     <test name="adminStaff">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="testCases.TC03_adminStaff">
+            <class name="testCases.SuperAdmin.TC03_adminStaff">
                 <methods>
                     <include name="addStaffUser"/>
                     <include name="editStaff"/>

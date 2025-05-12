@@ -1,14 +1,14 @@
-package testCases;
+package testCases.SuperAdmin;
 
 import baseTest.baseClass;
 import org.testng.Assert;
 import pages.loginPage;
 import org.testng.annotations.Test;
-import utility.ConfigReader;
 
 public class TC01_loginUser extends baseClass {
     loginPage login = new loginPage();
     String expectedNoEmailErrorMessage = "Email is required";
+    String expectedNoPasswordMessage = "Password is required";
 
 
     @Test    // Verify login functions with valid credentials
@@ -28,7 +28,7 @@ public class TC01_loginUser extends baseClass {
         loginPage.loginUser(url, username, password);
         String actualMessage = loginPage.getErrorMessage();
 
-        String expectedMessage = "Cannot find user with emailId " + username;
+        String expectedMessage = "Cannot find user with given email " + username;
         //  System.out.println(actualMessage);
         Assert.assertEquals(actualMessage, expectedMessage);
 
@@ -57,7 +57,7 @@ public class TC01_loginUser extends baseClass {
         Assert.assertEquals(actualMessage, expectedNoEmailErrorMessage);
 
         String actualNoPasswordMessage = login.NoPasswordMessage();
-        String expectedNoPasswordMessage = "Password is required";
+        expectedNoPasswordMessage = "Password is required";
         //System.out.println(actualMessage);
         Assert.assertEquals(actualNoPasswordMessage, expectedNoPasswordMessage);
     }

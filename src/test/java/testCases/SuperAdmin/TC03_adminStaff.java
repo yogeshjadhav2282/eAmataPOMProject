@@ -1,11 +1,10 @@
-package testCases;
+package testCases.SuperAdmin;
 
 import baseTest.baseClass;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.SuperAdmin.*;
 import pages.loginPage;
-import utility.ConfigReader;
 import utility.address;
 import utility.userDetails;
 
@@ -96,8 +95,8 @@ public class TC03_adminStaff extends baseClass {
      */
     @Test
     public void searchStaffByName() throws InterruptedException {
-        String searchName = "test test";
-        
+        String searchName = "Ruben Okuneva";
+
         // Login and navigate to Admin Staff page
         loginPage.loginUser(url, username, password);
         adminStaff.navigateToAdminStaffPage();
@@ -105,7 +104,7 @@ public class TC03_adminStaff extends baseClass {
         // Search for staff
         searchStaff.searchStaffByName(searchName);
         String actualName = searchStaff.getFirstSearchResult();
-        
+
         Assert.assertEquals(actualName, searchName, "Searched staff name mismatch");
     }
 

@@ -18,7 +18,7 @@ public class loginPage extends baseClass {
     static String password = "password";
     static String loginButton = "//button[text()='Login']";
     String gettext = "//div/header//div/a[1]/span[text()='Provider Groups']";
-    static String errorMessage = "//*[@id='root']//div/span[contains(text(), 'Cannot find user with emailId')]";
+    static String errorMessage = "//*[@id=\"root\"]//span[contains(text(), 'Cannot find user with given email')]";
     String noEmailErrorMessage = "//form//div/span[text()= 'Email is required']";
     String noPasswordErrorMessage = "//form//div/span[text()= 'Password is required']";
 

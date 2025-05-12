@@ -83,8 +83,10 @@ public class sortUser extends baseClass {
      * Verifies if the collected names are in ascending order
      */
     private static void verifySortOrder() {
+        System.out.println("Actual Sorted Names: "+staffNames);
         List<String> sortedNames = new ArrayList<>(staffNames);
         Collections.sort(sortedNames);
+        System.out.println("Sorted Names: "+ sortedNames);
 
         if (!staffNames.equals(sortedNames)) {
             throw new RuntimeException("Staff list is not sorted in ascending order");

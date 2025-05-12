@@ -6,9 +6,10 @@
     </listeners>
     <test name="All Tests">
         <classes>
-            <class name="testCases.TC01_loginUser"/>
-            <class name="testCases.TC02_logout"/>
-            <class name="testCases.TC03_adminStaff"/>
+            <!-- <class name="testCases.SuperAdmin.TC01_loginUser"/>
+            <class name="testCases.SuperAdmin.TC02_logout"/>
+            <class name="testCases.SuperAdmin.TC03_adminStaff"/> -->
+            <class name="testCases.CarePortal.TC04_ConsentForm"/>
         </classes>
     </test>
 </suite> 
