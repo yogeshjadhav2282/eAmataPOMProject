@@ -10,7 +10,7 @@ public class TC04_ConsentForm extends baseClass {
     @Test
     public static void addConsent() throws InterruptedException {
         url = "https://epicsystem.qa.care.eamata.com/auth/login";
-        username = "yogesh.jadhav+pgadmin@thinkitive.com";
+        username = "yogesh.jadhav+provider@thinkitive.com";
         password = "Test@123";
         // Login to the application
         loginPage.loginUser(url, username, password);
@@ -20,8 +20,8 @@ public class TC04_ConsentForm extends baseClass {
         consentForm.navigateToTheConsentForm();
         
         // Verify Consent Form page is loaded
-       // Assert.assertTrue(consentForm.isConsentFormPageLoaded(), "Consent Form page is not loaded");
-
+        //Assert.assertTrue(consentForm.isConsentFormPageLoaded(), "Consent Form page is not loaded");
+        
         // Click on Add Consent Form
         consentForm.ClickOnTheAddConsentForm();
         consentForm.addConsentForm("Conset To Call", "C:/Users/LNV-24/Downloads/consentFormPDF.pdf");
