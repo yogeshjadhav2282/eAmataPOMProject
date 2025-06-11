@@ -11,7 +11,7 @@ public class TC01_loginUser extends baseClass {
     String expectedNoPasswordMessage = "Password is required";
 
 
-    @Test    // Verify login functions with valid credentials
+    @Test// Verify login functions with valid credentials
     public void verifyLoginWithValidCred() throws InterruptedException {
         loginPage.loginUser(url, username, password);
 

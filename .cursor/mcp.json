@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "epic-med": {
+      "command": "npx",
+      "args": [
+        "@composio/mcp@latest",
+        "setup",
+        "https://mcp.composio.dev/jira/loose-sweet-receptionist-yvT5-3?agent=cursor",
+        "--client",
+        "cursor"
+      ]
+    },
+    "gmail_composio": {
+      "command": "npx",
+      "args": [
+        "@composio/mcp@latest",
+        "setup",
+        "https://mcp.composio.dev/gmail/loose-sweet-receptionist-yvT5-3?agent=cursor",
+        "--client",
+        "cursor"
+      ]
+    }
+  }
+} 
